@@ -1,0 +1,32 @@
+<?php
+// Check if correct number of command line arguments are provided
+if ($argc != 3) {
+    echo "Usage: php script.php <input_file> <word_to_search>\n";
+    exit(1);
+}
+
+// Read command line arguments
+$inputFile = $argv[1];
+$searchWord = $argv[2];
+
+// Read contents of input file
+$fileContents = file_get_contents($inputFile);
+if ($fileContents === false) {
+    echo "Error reading input file.\n";
+    exit(1);
+}
+
+// Convert to lowercase and remove non-alphabetic characters
+$cleanedString = preg_replace('/[^a-zA-Z]+/', '', strtolower($fileContents));
+
+// Reverse the word to search for
+//$reversedSearchWord = strrev($searchWord);
+$reversedSearchWord = $searchWord;
+// Count occurrences of the reversed word in the reversed string
+$matches = substr_count(strrev($cleanedString), $reversedSearchWord);
+
+// Output the result in HTML format
+echo "<html><body>";
+echo "<p>Matches: $matches</p>";
+echo "</body></html>";
+?>

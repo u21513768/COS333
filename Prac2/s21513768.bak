@@ -1,0 +1,35 @@
+#lang sicp
+;Quintin d'Hotman de Villiers u21513768
+(define circleArea
+  (lambda (r)
+    (let ((pi (/ 22 7)))
+      (if (<= r 0)
+          0
+          (* pi (* r r))))))
+(circleArea -1) ;Should be 0
+(circleArea 3.2) ;Should be 32.182857142857145
+(circleArea 0)
+
+(define countDivisors
+  (lambda (val lst)
+    (let loop ((counter 0) (lst lst))
+      (cond
+        ((null? lst) counter)
+        ((= (remainder val (car lst)) 0)
+         (loop (+ counter 1) (cdr lst)))
+        (else
+         (loop counter (cdr lst)))))))
+(countDivisors 10 '(1 2 3 4 5 6 7 8 9 10)) ;Should be 4: 1 2 5 10
+(countDivisors 100 '(1 2 3 4 5 10 15 20 25 50 75 100)) ;Should be 9: 1 2 4 5 10 20 25 100
+
+(define getEveryEvenElement
+  (lambda (lst)
+     (let loop ((res '()) (lst lst) (index 1))
+      (cond
+        ((null? lst) (reverse res))
+        ((= (remainder index 2) 0)
+         (loop (cons (car lst) res) (cdr lst) (+ index 1)))
+        (else
+         (loop res (cdr lst) (+ index 1)))))))
+(getEveryEvenElement '(a b c d)) ;Should be (b d)
+(getEveryEvenElement '(1 2 3 4 5 6 7 8 9 10)) ;Should be (2 4 6 8 10)

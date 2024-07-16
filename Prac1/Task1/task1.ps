@@ -1,0 +1,42 @@
+% Reference: https://w3-o.cs.hm.edu/users/ruckert/public_html/compiler/www.cs.indiana.edu/operators.html
+% Define a procedure to draw a single circle, page 330 of reference manual
+% Quintin d'Hotman de Villiers u21513768
+/circle {
+    newpath
+    0 0 20 0 360 arc
+    stroke
+} def
+
+% Define a procedure to fill a circle
+/filled_circle {
+    newpath
+    0 0 20 0 360 arc % Page 205 of reference manual, arc of circle
+    fill
+} def
+
+% Setradius of the circle of circles
+/radius 100 def
+
+% Set number of circles
+/num_circles 6 def
+
+% Set the angle increment for each circle
+/angle_increment 360 num_circles div def
+
+% Specify the coordinates for the center point
+300 400 translate 
+
+% Draw the circle of circles
+0 1 num_circles 1 sub {
+    /i exch def % Page 65 of reference manual, exchanges the top two elements on the stack, 
+                %set i to the top element/current index
+    gsave % Page 195 of reference manual, save the current graphics state to stack
+    i angle_increment mul 90 sub rotate
+    radius 0 translate
+    i 2 mod 0 eq { %if even, fill the circle
+        filled_circle
+    } {
+        circle
+    } ifelse
+    grestore
+} for % Page 69 of reference manual, for loop
